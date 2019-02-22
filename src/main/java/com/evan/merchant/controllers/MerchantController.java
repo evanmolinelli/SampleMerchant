@@ -3,7 +3,9 @@ package com.evan.merchant.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,41 +30,42 @@ public class MerchantController {
 		this.merchantService = merchantService;
 	}
 
-	@RequestMapping(value = "/offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/Offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	// @GetMapping("/offers")
-	public List<Offer> offerController() {
-		List<Offer> Offers = merchantService.retrieveOffers();
-		return Offers;
+	public ResponseEntity<List<Offer>> offerController() {
+		List<Offer> offers = merchantService.retrieveOffers();
+		return new ResponseEntity<List<Offer>>(offers, HttpStatus.OK);
 	}
 
-	@GetMapping("/offers/{offerId}")
-	public Offer getEmployee(@PathVariable(name = "offerId") int offerId) {
-		return merchantService.getOffer(offerId);
+	@GetMapping("/Offer/{offerId}")
+	public ResponseEntity<Offer> getOffer(@PathVariable(name = "offerId") int offerId) {
+		return new ResponseEntity<Offer>(merchantService.getOffer(offerId), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/SaveOffers", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/SaveOffer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	//@PostMapping("/SaveOffers")
-	public void saveEmployee(@RequestBody Offer offer) {
-		merchantService.saveOffer(offer);
+	public ResponseEntity<Offer> createOffer(@RequestBody Offer offer) {
+		merchantService.createOffer(offer);
 		System.out.println("Offer Saved Successfully");
+		return new ResponseEntity<Offer>(HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/DeleteOffer/{offerId}")
-	public void deleteEmployee(@PathVariable(name = "offerId") int offerId) {
+	public ResponseEntity<Void> deleteOffer(@PathVariable(name = "offerId") int offerId) {
 		merchantService.deleteOffer(offerId);
 		System.out.println("Offer Deleted Successfully");
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	@PutMapping("/UpdateOffers/{offerId}")
+	@PutMapping("/UpdateOffer/{offerId}")
 	@ResponseBody
-	public String updateEmployee(@RequestBody Offer offer, @PathVariable(name = "offerId") int offerId) {
+	public ResponseEntity<Void> updateOffer(@RequestBody Offer offer, @PathVariable(name = "offerId") int offerId) {
 		Offer o = merchantService.getOffer(offerId);
 		if (o != null && offer.getId() == offerId) {
 			merchantService.updateOffer(offer);
-			return "cool...";
-		}else{
-			return "Not today";
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
+		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 
 	}
 }

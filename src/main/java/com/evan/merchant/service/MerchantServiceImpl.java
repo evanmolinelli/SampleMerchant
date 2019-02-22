@@ -30,7 +30,7 @@ public class MerchantServiceImpl implements MerchantService {
 	  return optOff.get();
 	 }
 	  
-	 public void saveOffer(Offer Offer){
+	 public void createOffer(Offer Offer){
 		 offerRepo.save(Offer);
 	 }
 	  

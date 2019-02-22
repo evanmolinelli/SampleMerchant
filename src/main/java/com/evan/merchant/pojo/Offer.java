@@ -56,4 +56,9 @@ public class Offer {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return "Offer [id=" + id + ", service=" + service + ", description=" + description + ", price=" + price + "]";
+	}
 }

@@ -13,7 +13,7 @@ public interface MerchantService {
 	
 	public Offer getOffer(int offerId);
 	  
-	 public void saveOffer(Offer offer);
+	 public void createOffer(Offer offer);
 	  
 	 public void deleteOffer(int offerId);
 	  
