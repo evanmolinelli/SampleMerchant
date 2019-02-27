@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,8 @@ import com.evan.merchant.pojo.Offer;
 import com.evan.merchant.service.MerchantService;
 
 @RestController
+@RequestMapping("/api")
+@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
 public class MerchantController {
 
 	@Autowired
@@ -59,13 +62,13 @@ public class MerchantController {
 
 	@PutMapping("/UpdateOffer/{offerId}")
 	@ResponseBody
-	public ResponseEntity<Void> updateOffer(@RequestBody Offer offer, @PathVariable(name = "offerId") int offerId) {
+	public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer, @PathVariable(name = "offerId") int offerId) {
 		Offer o = merchantService.getOffer(offerId);
 		if (o != null && offer.getId() == offerId) {
 			merchantService.updateOffer(offer);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Offer>(HttpStatus.OK);
 		}
-		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Offer>(HttpStatus.BAD_REQUEST);
 
 	}
 }

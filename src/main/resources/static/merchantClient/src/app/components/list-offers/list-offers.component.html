@@ -1,0 +1,22 @@
+<div class="container">
+    <table class="table table-striped table-hover">
+        <thead>
+            <th>ID</th>
+            <th>Service</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Operations</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let offer of off">
+                <td>{{offer.id}}</td>
+                <td>{{offer.service}}</td>
+                <td>{{offer.description}}</td>
+                <td>{{offer.price}}</td>
+                <td><button class="btn btn-danger" (click)="deleteOffer(offer.id)">Delete </button> 
+                <button class="btn btn-primary" (click)="updateOffer(offer)"> Edit</button> </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary" id="newOffer" (click)="newOffer(offer)">New Offer</button>
+</div>
